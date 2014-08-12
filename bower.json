@@ -1,0 +1,31 @@
+{
+  "name": "angular-project-template",
+  "version": "0.0.1",
+  "authors": [
+    "Null McNull <no@spam.org>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.2.21",
+    "bootstrap": "~3.2.0",
+    "angular": "~1.2.21",
+    "jquery": "1.*",
+    "respond": "~1.4.2",
+    "html5shiv": "~3.7.2"
+  },
+  "overrides": {
+    "respond" : {
+      "main": "dest/respond.min.js"
+    }
+  }
+}

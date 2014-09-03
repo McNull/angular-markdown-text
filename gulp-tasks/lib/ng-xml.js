@@ -9,7 +9,11 @@ var quoteRegexp = new RegExp('\\\"', 'g');
 var nlReplace = '\\n\'' + ' +\n    \'';
 
 function escape(content) {
-  return content.replace(bsRegexp, '\\\\').replace(quoteRegexp, '\\\"').replace(/\r?\n/g, nlReplace);
+  return content
+    .replace(bsRegexp, '\\\\')
+    .replace(quoteRegexp, '\\\"')
+    .replace(/'/g, '\\\'')
+    .replace(/\r?\n/g, nlReplace);
 }
 
 function templateCache(content, key) {

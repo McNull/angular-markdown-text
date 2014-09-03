@@ -12,8 +12,13 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "gulp-tasks",
+    "src",
+    "dest",
+    "/build-config.js",
+    "/gulpfile.js",
+    "/package.json",
+    "/karma.conf.js"
   ],
   "dependencies": {
     "angular-route": "~1.2.21",
@@ -26,6 +31,9 @@
   "overrides": {
     "respond" : {
       "main": "dest/respond.min.js"
+    },
+    "angular-mocks": {
+      "ignore": true
     }
   }
 }

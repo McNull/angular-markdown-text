@@ -22,7 +22,7 @@ module.exports = function(gulp) {
 
   gulp.task('bower', ['bower-clean'], function () {
 
-    return bower.src(gulp, { env: config.env })
+    return bower.src(gulp, { env: config.env, includeDev: config.bower && config.bower.includeDev })
       .pipe(gulp.dest(path.join(config.folders.dest, 'vendor')));
 
   });

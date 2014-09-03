@@ -1,16 +1,17 @@
-
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
 var config = require('../build-config.js');
 var modify = require('./lib/gulp-modify-content.js');
 var pkg = require('../package.json');
 var _ = require('lodash');
+var path = require('path');
+var fs = require('fs');
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
 module.exports = function (gulp) {
 
-  gulp.task('index', [], function () {
+  gulp.task('index', ['modules'], function () {
 
     return gulp.src('index.html', {
       cwd: config.folders.src
@@ -21,8 +22,18 @@ module.exports = function (gulp) {
       var ext = config.env === 'production' ? '.min' : '';
 
       _.forEach(config.modules, function (module) {
-        css.push(module.name + '/' + module.name + ext + '.css');
-        js.push(module.name + '/' + module.name + ext + '.js');
+
+        var moduleBase = module.name + '/' + module.name + ext;
+        var moduleCss = moduleBase + '.css';
+        var moduleJs = moduleBase + '.js';
+
+        if(fs.existsSync(path.join(config.folders.dest, moduleCss))) {
+          css.push(module.name + '/' + module.name + ext + '.css');
+        }
+
+        if(fs.existsSync(path.join(config.folders.dest, moduleJs))) {
+          js.push(module.name + '/' + module.name + ext + '.js');
+        }
       });
 
       return _.template(content, {

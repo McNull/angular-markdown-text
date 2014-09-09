@@ -29,6 +29,10 @@ var config = {
     }
   ],
 
+  bower: {
+    includeDev: false
+  },
+
   header: _.template([
     '/*!',
     '   <%= pkg.name %> v<%= pkg.version %>',

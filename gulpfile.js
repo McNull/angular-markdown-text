@@ -17,6 +17,7 @@ require('./gulp-tasks/modules-task.js')(gulp);
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -
 
 gulp.task('build', [ 'modules', 'bower', 'index' ]);
+gulp.task('watch', [ 'modules-watch']);
 gulp.task('default', [ 'build' ]);
 
 // - - - - 8-< - - - - - - - - - - - - - - - - - - -

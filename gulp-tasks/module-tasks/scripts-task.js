@@ -11,6 +11,18 @@ var filter = require('../lib/gulp-mini-filter.js');
 
 module.exports = function (gulp, module) {
 
+  var inputFiles = [
+    path.join(module.folders.src, module.name + '.js'),
+    path.join(module.folders.src, '**/*.js'),
+    path.join(module.folders.dest, module.name + '-templates.js'),
+    '!**/*.test.js',
+    '!**/*.ignore.js'
+  ];
+
+  module.watch('scripts-watch', function() {
+    gulp.watch(inputFiles, [ module.name + '-scripts' ]);
+  });
+
   module.task('scripts-clean', function() {
     var outputFiles = [
       path.join(module.folders.dest, module.name + '.js'),
@@ -35,15 +47,7 @@ module.exports = function (gulp, module) {
       //    1. concat all js in one file and persist to the filesystem
       //    2. uglify the previous file and point point the content of the source map to the original file.
 
-      var jsGlob = [
-        path.join(module.folders.src, module.name + '.js'),
-        path.join(module.folders.src, '**/*.js'),
-        path.join(module.folders.dest, module.name + '-templates.js'),
-        '!**/*.test.js',
-        '!**/*.ignore.js'
-      ];
-
-      return gulp.src(jsGlob)
+      return gulp.src(inputFiles)
         .pipe(module.touch())
         .pipe(wrap({
           header: {

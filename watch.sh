@@ -5,7 +5,9 @@
 
 # https://github.com/gulpjs/gulp/issues/216
 
-until gulp modules-watch
+gulp build
+
+until gulp watch
  do growlnotify -name gulp -m "gulp watch restarted"
  sleep 1
 done

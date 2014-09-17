@@ -15,6 +15,15 @@ var config = require('../../build-config.js');
 
 module.exports = function(gulp, module) {
 
+  var inputFiles = [
+    path.join(module.folders.src, '**/*.ng.html'),
+    path.join(module.folders.src, '**/*.ng.svg')
+  ];
+
+  module.watch('templates-watch', function() {
+    gulp.watch(inputFiles, [ module.name + '-templates' ]);
+  });
+
   module.task('templates-clean', function() {
 
     var outputFiles = [
@@ -35,6 +44,11 @@ module.exports = function(gulp, module) {
       '!**/*.ignore.ng.html'
     ];
 
+    var ngSvgGlob = [
+      path.join(module.folders.src, '/**/*.ng.svg'),
+      '!**/*.ignore.ng.svg'
+    ];
+
     var ngHtmlStream = gulp.src(ngHtmlGlob)
       .pipe(module.touch())
       .pipe(minifyHtml({
@@ -42,11 +56,6 @@ module.exports = function(gulp, module) {
         spare: true,
         quotes: true
       }));
-
-    var ngSvgGlob = [
-      path.join(module.folders.src, '/**/*.ng.svg'),
-      '!**/*.ignore.ng.svg'
-    ];
 
     var ngSvgStream = gulp.src(ngSvgGlob)
       .pipe(module.touch())

@@ -6,7 +6,7 @@
     <option name="PARENT_ENVS" value="true" />
     <envs />
     <module name="angular-project-template" />
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/watch.sh" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gulp-tasks/watch.sh" />
     <option name="PARAMETERS" value="" />
     <RunnerSettings RunnerId="BashRunner" />
     <ConfigurationWrapper RunnerId="BashRunner" />

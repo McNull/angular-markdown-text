@@ -16,7 +16,6 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "gulp-clean": "~0.3.1",
     "main-bower-files": "~1.0.2",
     "gulp": "~3.8.7",
     "through2": "~0.5.1",
@@ -30,6 +29,7 @@
     "merge-stream": "~0.1.5",
     "gulp-svgmin": "~0.4.6",
     "gulp-ng-annotate": "~0.3.0",
-    "autoprefixer": "~2.2.0"
+    "autoprefixer": "~2.2.0",
+    "gulp-rimraf": "~0.1.0"
   }
 }

@@ -12,7 +12,23 @@ var wrapper = require('../lib/gulp-wrap-src');
 
 module.exports = function (gulp, module) {
 
-  module.task('styles', 'clean', function () {
+  module.task('styles-clean', function() {
+
+    var outputFiles = [
+      path.join(module.folders.dest, module.name + '.css'),
+      path.join(module.folders.dest, module.name + '.css.map'),
+      path.join(module.folders.dest, module.name + '.min.css'),
+      path.join(module.folders.dest, module.name + '.min.css.map')
+    ];
+
+    var clean = require('gulp-rimraf');
+
+    return gulp.src(outputFiles, { read: false })
+      .pipe(clean({ force: true }));
+
+  });
+
+  module.task('styles', 'styles-clean', function () {
 
     var cssGlob = [
       path.join(module.folders.src, module.name + '.css'),

@@ -11,7 +11,22 @@ var filter = require('../lib/gulp-mini-filter.js');
 
 module.exports = function (gulp, module) {
 
-  module.task('scripts', ['clean', 'templates'], function () {
+  module.task('scripts-clean', function() {
+    var outputFiles = [
+      path.join(module.folders.dest, module.name + '.js'),
+      path.join(module.folders.dest, module.name + '.js.map'),
+      path.join(module.folders.dest, module.name + '.min.js'),
+      path.join(module.folders.dest, module.name + '.min.js.map')
+    ];
+
+    var clean = require('gulp-rimraf');
+
+    return gulp.src(outputFiles, { read: false })
+      .pipe(clean({ force: true }));
+
+  });
+
+  module.task('scripts', ['scripts-clean', 'templates'], function () {
 
       // At the moment of writing, generating and consuming source maps isn't optimal. Compile tools merge previous
       // maps incorrectly, browsers aren't 100% certain about breakpoint locations and are unable to unmangle

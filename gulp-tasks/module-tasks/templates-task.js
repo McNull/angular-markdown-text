@@ -15,7 +15,20 @@ var config = require('../../build-config.js');
 
 module.exports = function(gulp, module) {
 
-  module.task('templates', 'clean', function () {
+  module.task('templates-clean', function() {
+
+    var outputFiles = [
+      path.join(module.folders.dest, module.name + '-templates.js')
+    ];
+
+    var clean = require('gulp-rimraf');
+
+    return gulp.src(outputFiles, { read: false })
+      .pipe(clean({ force: true }));
+
+  });
+
+  module.task('templates', 'templates-clean', function () {
 
     var ngHtmlGlob = [
       path.join(module.folders.src, '**/*.ng.html'),

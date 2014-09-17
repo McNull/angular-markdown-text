@@ -28,7 +28,7 @@ module.exports = function (gulp) {
 
     // Register all tasks for the current module.
 
-    require('./module-tasks/clean-task.js')(gulp, module);
+    // require('./module-tasks/clean-task.js')(gulp, module);
     require('./module-tasks/styles-task.js')(gulp, module);
     require('./module-tasks/templates-task.js')(gulp, module);
     require('./module-tasks/scripts-task.js')(gulp, module);
@@ -37,6 +37,7 @@ module.exports = function (gulp) {
 
     // Register a task for this module that is dependent on all sub tasks.
 
+//    console.log(module.name, module.tasks);
     gulp.task(module.name, module.tasks);
 
   })(config.modules[i]);
@@ -47,7 +48,7 @@ module.exports = function (gulp) {
 
   // - - - - - - - 8-< - - - - - - - - - - - - - - - - - - - -
 
-  function moduleTask(taskname, depsOrFn, fn) {
+  function moduleTask(taskname, depsOrFn, fn, noAutoRegister) {
 
     var module = this;
 
@@ -69,7 +70,10 @@ module.exports = function (gulp) {
 
     var fulltaskname = module.name + '-' + taskname;
     gulp.task(fulltaskname, depsOrFn, fn);
-    module.tasks.push(fulltaskname);
+
+    if(!noAutoRegister) {
+      module.tasks.push(fulltaskname);
+    }
 
   }
 

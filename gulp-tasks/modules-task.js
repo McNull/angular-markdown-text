@@ -5,10 +5,12 @@ var config = require('../build-config.js');
 module.exports = function (gulp) {
 
   var moduleTasks = [];
+  var moduleWatchTasks = [];
 
   for (var i = 0; i < config.modules.length; i++) (function (module) {
 
     moduleTasks.push(module.name);
+    moduleWatchTasks.push(module.name + '-watch');
 
     module.folders = {
       src: path.join(config.folders.src, module.name),
@@ -19,6 +21,11 @@ module.exports = function (gulp) {
 
     module.tasks = [];
     module.task = moduleTask;
+
+    // We do the same for the watch tasks.
+
+    module.watchTasks = [];
+    module.watch = moduleWatchTask;
 
     // Filenames of every file we'll process in some way is kept in this array. Everything not touched is copied to the
     // destination directory at the end (copy-task).
@@ -35,16 +42,23 @@ module.exports = function (gulp) {
     require('./module-tasks/svg-task.js')(gulp, module);
     require('./module-tasks/copy-task.js')(gulp, module);
 
-    // Register a task for this module that is dependent on all sub tasks.
+    // Register a task for this module that is dependent on all sub tasks ...
 
-//    console.log(module.name, module.tasks);
     gulp.task(module.name, module.tasks);
+
+    // ... and register a watch task for this module
+
+    gulp.task(module.name + '-watch', module.watchTasks);
 
   })(config.modules[i]);
 
   // Register the main task that is dependent on all module tasks
 
   gulp.task('modules', moduleTasks);
+
+  // ... and register a task that is dependent on all the module watch tasks
+
+  gulp.task('modules-watch', moduleWatchTasks);
 
   // - - - - - - - 8-< - - - - - - - - - - - - - - - - - - - -
 
@@ -75,6 +89,16 @@ module.exports = function (gulp) {
       module.tasks.push(fulltaskname);
     }
 
+  }
+
+  // - - - - - - - 8-< - - - - - - - - - - - - - - - - - - - -
+
+  function moduleWatchTask(taskname, depsOrFn, fn) {
+    var module = this;
+    var fulltaskname = module.name + '-' + taskname;
+
+    module.task(taskname, depsOrFn, fn, true);
+    module.watchTasks.push(fulltaskname);
   }
 
   // - - - - - - - 8-< - - - - - - - - - - - - - - - - - - - -

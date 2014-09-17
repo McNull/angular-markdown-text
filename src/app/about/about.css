@@ -2,8 +2,6 @@
   color: yellow;
 }
 
-
-
 .gedoe-ng-logo {
   height: 180px;
   animation: gedoe-slide-in 1s;
@@ -21,36 +19,37 @@
   animation-name: slide-in-text;
 }
 
-@keyframes gedoe-slide-in-text {
-  0% {
-    opacity: 0;
-    transform: translateY(-50%);
-  }
-}
 
-@keyframes bleeh-slide-in-text {
-  0% {
-    background-color: yellow;
-    opacity: 0;
-    transform: translateY(-150%);
-  }
-  100% {
-    background-color: purple;
-    opacity: 1;
-    transform: translateY(0%);
-  }
-}
+/*@keyframes gedoe-slide-in-text {*/
+  /*0% {*/
+    /*opacity: 0;*/
+    /*transform: translateY(-50%);*/
+  /*}*/
+/*}*/
 
-.gedoe {
-  background-color: purple;
-  color: yellow;
-  animation: gedoe-slide-in 1s;
-}
+/*@keyframes bleeh-slide-in-text {*/
+  /*0% {*/
+    /*background-color: yellow;*/
+    /*opacity: 0;*/
+    /*transform: translateY(-150%);*/
+  /*}*/
+  /*100% {*/
+    /*background-color: purple;*/
+    /*opacity: 1;*/
+    /*transform: translateY(0%);*/
+  /*}*/
+/*}*/
 
-.bleeh {
-  font-weight: bold;
+/*.gedoe {*/
+  /*background-color: purple;*/
+  /*color: yellow;*/
+  /*animation: gedoe-slide-in 1s;*/
+/*}*/
 
-  background-color: purple;
-  color: yellow;
-  animation: gedoe-slide-in 14s;
-}
+/*.bleeh {*/
+  /*font-weight: bold;*/
+
+  /*background-color: purple;*/
+  /*color: yellow;*/
+  /*animation: gedoe-slide-in 14s;*/
+/*}*/

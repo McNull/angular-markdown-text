@@ -19,8 +19,11 @@ module.exports = function (gulp, module) {
     '!**/*.ignore.js'
   ];
 
-  module.watch('scripts-watch', function() {
-    gulp.watch(inputFiles, [ module.name + '-scripts' ]);
+  module.watch('scripts', function() {
+    return {
+      glob: inputFiles
+    };
+//    gulp.watch(inputFiles, [ module.name + '-scripts' ]);
   });
 
   module.task('scripts-clean', function() {

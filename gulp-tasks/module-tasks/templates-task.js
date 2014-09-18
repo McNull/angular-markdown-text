@@ -20,8 +20,10 @@ module.exports = function(gulp, module) {
     path.join(module.folders.src, '**/*.ng.svg')
   ];
 
-  module.watch('templates-watch', function() {
-    gulp.watch(inputFiles, [ module.name + '-templates' ]);
+  module.watch('templates', function() {
+    return {
+      glob: inputFiles
+    };
   });
 
   module.task('templates-clean', function() {

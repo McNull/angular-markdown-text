@@ -21,8 +21,17 @@ module.exports = function (gulp, module) {
     '!**/*.ignore.css'
   ];
 
-  module.watch('styles-watch', function() {
-    gulp.watch(inputFiles, [ module.name + '-styles' ]);
+  module.watch('styles', function() {
+
+    // Include all *.less files in the watch
+    var files = inputFiles.concat([]);
+    files.splice(1, 0, path.join(module.folders.src, '**/*.less'));
+
+    return {
+      glob: files,
+      tasks: [ 'styles' ]
+    };
+
   });
 
   module.task('styles-clean', function() {
@@ -68,6 +77,16 @@ module.exports = function (gulp, module) {
       .pipe(gulpIf(/\.less$/ , less()))
       .pipe(concat(module.name + '.css'))
       .pipe(prefixer(['last 2 versions', '> 1%', 'ie 8']))
+      .pipe(filter(function(file) {
+
+        // For gulp-sourcemaps to work with less import statements we'll need to rebase the file
+
+        file.base = path.join(file.base, module.folders.src);
+        file.path = path.join(file.base, module.name + '.css');
+
+        return true;
+
+      }))
       .pipe(sourcemaps.write('.', { sourceRoot: '../src/' + module.name }))
       .pipe(gulp.dest(module.folders.dest))
 

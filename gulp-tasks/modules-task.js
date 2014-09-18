@@ -93,11 +93,46 @@ module.exports = function (gulp) {
 
   // - - - - - - - 8-< - - - - - - - - - - - - - - - - - - - -
 
-  function moduleWatchTask(taskname, depsOrFn, fn) {
+  function moduleWatchTask(taskname, fn) {
     var module = this;
-    var fulltaskname = module.name + '-' + taskname;
+    var fulltaskname = module.name + '-' + taskname + '-watch';
 
-    module.task(taskname, depsOrFn, fn, true);
+    module.task(taskname + '-watch', null, function(cb) {
+
+      var opt = fn();
+
+      if(!opt) {
+        throw new Error('No options returned from watch: ' + taskname);
+      }
+
+      if(!opt.glob) {
+        throw new Error('No glob watch property in options: ' + taskname);
+      }
+
+      opt.tasks = opt.tasks || [taskname];
+
+      var i = opt.tasks.length;
+
+      while(i--) {
+        opt.tasks[i] = module.name + '-' + opt.tasks[i];
+      }
+
+      var watcher =  gulp.watch(opt.glob, opt.tasks);
+
+      function onEvent(event) {
+        console.log(event);
+      }
+
+      watcher.on('change', function(event) {
+        console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+        var exec = require('child_process').exec;
+
+        exec('growlnotify -n angular-project-template -m "' + module.name + '-' + taskname + ': build triggered."')
+      });
+
+      cb();
+    }, true);
+
     module.watchTasks.push(fulltaskname);
   }
 

@@ -21,7 +21,8 @@ module.exports = function (gulp, module) {
 
   module.watch('scripts', function() {
     return {
-      glob: inputFiles
+      glob: inputFiles,
+      tasks: ['scripts-no-templates-rebuild']
     };
 //    gulp.watch(inputFiles, [ module.name + '-scripts' ]);
   });
@@ -41,47 +42,49 @@ module.exports = function (gulp, module) {
 
   });
 
-  module.task('scripts', ['scripts-clean', 'templates'], function () {
+  function scriptsTask() {
 
-      // At the moment of writing, generating and consuming source maps isn't optimal. Compile tools merge previous
-      // maps incorrectly, browsers aren't 100% certain about breakpoint locations and are unable to unmangle
-      // argument names. The most stable seems to be to uglify and map in two stages:
+    // At the moment of writing, generating and consuming source maps isn't optimal. Compile tools merge previous
+    // maps incorrectly, browsers aren't 100% certain about breakpoint locations and are unable to unmangle
+    // argument names. The most stable seems to be to uglify and map in two stages:
 
-      //    1. concat all js in one file and persist to the filesystem
-      //    2. uglify the previous file and point point the content of the source map to the original file.
+    //    1. concat all js in one file and persist to the filesystem
+    //    2. uglify the previous file and point point the content of the source map to the original file.
 
-      return gulp.src(inputFiles)
-        .pipe(module.touch())
-        .pipe(wrap({
-          header: {
-            path: module.name + '-header.js',
-            contents: config.header + '(function(angular) {\n'
-          },
-          footer: {
-            path: module.name + '-footer.js',
-            contents: '})(angular);'
-          }
-        }))
-        .pipe(sourcemaps.init())
-        .pipe(concat(module.name + '.js'))
-        .pipe(ngAnnotate())
-        .pipe(sourcemaps.write('.', { sourceRoot: '../src/' + module.name }))
-        .pipe(gulp.dest(module.folders.dest))
+    return gulp.src(inputFiles)
+      .pipe(module.touch())
+      .pipe(wrap({
+        header: {
+          path: module.name + '-header.js',
+          contents: config.header + '(function(angular) {\n'
+        },
+        footer: {
+          path: module.name + '-footer.js',
+          contents: '})(angular);'
+        }
+      }))
+      .pipe(sourcemaps.init())
+      .pipe(concat(module.name + '.js'))
+      .pipe(ngAnnotate())
+      .pipe(sourcemaps.write('.', { sourceRoot: '../src/' + module.name }))
+      .pipe(gulp.dest(module.folders.dest))
 
-        // Create the minified version
+      // Create the minified version
 
-        .pipe(sourcemaps.init())
-        .pipe(filter(function(file) {
+      .pipe(sourcemaps.init())
+      .pipe(filter(function(file) {
 
-          // Filter out the previous map file.
-          return path.extname(file.path) != '.map';
+        // Filter out the previous map file.
+        return path.extname(file.path) != '.map';
 
-        }))
-        .pipe(rename(module.name + '.min.js'))
-        .pipe(uglify({ preserveComments: 'some' }))
-        .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: './' }))
-        .pipe(gulp.dest(module.folders.dest));
-    }
-  );
+      }))
+      .pipe(rename(module.name + '.min.js'))
+      .pipe(uglify({ preserveComments: 'some' }))
+      .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: './' }))
+      .pipe(gulp.dest(module.folders.dest));
+  }
+
+  module.task('scripts-no-templates-rebuild', ['scripts-clean'], scriptsTask, true);
+  module.task('scripts', ['scripts-clean', 'templates'], scriptsTask);
 };
 

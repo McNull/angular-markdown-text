@@ -99,25 +99,25 @@ module.exports = function (gulp) {
 
     module.task(taskname + '-watch', null, function(cb) {
 
-      var opt = fn();
+      var w = fn();
 
-      if(!opt) {
+      if(!w) {
         throw new Error('No options returned from watch: ' + taskname);
       }
 
-      if(!opt.glob) {
+      if(!w.glob) {
         throw new Error('No glob watch property in options: ' + taskname);
       }
 
-      opt.tasks = opt.tasks || [taskname];
+      w.tasks = w.tasks || [taskname];
 
-      var i = opt.tasks.length;
+      var i = w.tasks.length;
 
       while(i--) {
-        opt.tasks[i] = module.name + '-' + opt.tasks[i];
+        w.tasks[i] = module.name + '-' + w.tasks[i];
       }
 
-      var watcher =  gulp.watch(opt.glob, opt.tasks);
+      var watcher =  gulp.watch(w.glob, w.tasks);
 
       function onEvent(event) {
         console.log(event);

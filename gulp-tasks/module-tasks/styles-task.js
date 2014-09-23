@@ -63,6 +63,7 @@ module.exports = function (gulp, module) {
     // not have a sourcemap associated with it.
 
     return gulp.src(inputFiles)
+
       .pipe(wrapper({
         header: {
           path: module.name + '-header.css',

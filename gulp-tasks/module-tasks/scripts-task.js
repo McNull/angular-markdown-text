@@ -11,15 +11,21 @@ var filter = require('../lib/gulp-mini-filter.js');
 
 module.exports = function (gulp, module) {
 
-  var inputFiles = [
-    path.join(module.folders.src, module.name + '.js'),
-    path.join(module.folders.src, '**/*.js'),
-    path.join(module.folders.dest, module.name + '-templates.js'),
-    '!**/*.test.js',
-    '!**/*.ignore.js'
-  ];
-
   module.watch('scripts', function() {
+
+    // Input files differ from the actual script task:
+    // We're not watching the templates.js output file, since this gives problems
+    // when a manual build occurs.
+    // The template (ng.html) watch task fires the script task.
+
+    var inputFiles = [
+      path.join(module.folders.src, module.name + '.js'),
+      path.join(module.folders.src, '**/*.js'),
+//      path.join(module.folders.dest, module.name + '-templates.js'),
+      '!**/*.test.js',
+      '!**/*.ignore.js'
+    ];
+
     return {
       glob: inputFiles,
       tasks: ['scripts-no-templates-rebuild']
@@ -43,6 +49,16 @@ module.exports = function (gulp, module) {
   });
 
   function scriptsTask() {
+
+    // The input files differ from the watch task: we're including the templates.js file here.
+
+    var inputFiles = [
+      path.join(module.folders.src, module.name + '.js'),
+      path.join(module.folders.src, '**/*.js'),
+      path.join(module.folders.dest, module.name + '-templates.js'),
+      '!**/*.test.js',
+      '!**/*.ignore.js'
+    ];
 
     // At the moment of writing, generating and consuming source maps isn't optimal. Compile tools merge previous
     // maps incorrectly, browsers aren't 100% certain about breakpoint locations and are unable to unmangle

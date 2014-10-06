@@ -127,7 +127,7 @@ module.exports = function (gulp) {
         console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
         var exec = require('child_process').exec;
 
-        exec('growlnotify -n angular-project-template -m "' + module.name + '-' + taskname + ': build triggered."')
+        exec('growlnotify --image gulp-tasks/run.png -n angular-project-template -m "' + module.name + '-' + taskname + ': build triggered."')
       });
 
       cb();

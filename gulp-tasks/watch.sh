@@ -8,6 +8,6 @@
 gulp build
 
 until gulp watch
- do growlnotify -name gulp -m "gulp watch restarted"
+ do growlnotify -name gulp -m "gulp watch restarted" --image watch.png
  sleep 1
 done

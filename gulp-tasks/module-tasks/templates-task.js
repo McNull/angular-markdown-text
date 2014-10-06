@@ -22,7 +22,8 @@ module.exports = function(gulp, module) {
 
   module.watch('templates', function() {
     return {
-      glob: inputFiles
+      glob: inputFiles,
+      tasks: ['scripts']
     };
   });
 

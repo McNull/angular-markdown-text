@@ -12,5 +12,5 @@ dest/*
 #.idea/scopes
 
 .idea/**/*
-!.idea/runConfigurations/
+!.idea/runConfigurations
 !.idea/webResources.xml

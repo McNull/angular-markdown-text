@@ -21,6 +21,10 @@ var config = {
 
   modules: [
     {
+      name: 'angular-markdown-text',
+      alias: 'markdown'
+    },
+    {
       name: 'angular-logo',
       alias: 'ngLogo'
     },

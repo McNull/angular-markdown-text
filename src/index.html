@@ -31,6 +31,11 @@
 
   <script src="vendor/angular/angular.min.js"></script>
   <script src="vendor/angular-route/angular-route.min.js"></script>
+  <script src="vendor/showdown/compressed/showdown.js"></script>
+  <script src="vendor/showdown/compressed/extensions/github.js"></script>
+  <script src="vendor/showdown/compressed/extensions/google-prettify.js"></script>
+  <script src="vendor/showdown/compressed/extensions/twitter.js"></script>
+
   <% _.forEach(js, function(include) { %>
   <script src="<%-include%>"></script><%
   }); %>

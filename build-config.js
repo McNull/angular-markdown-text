@@ -30,7 +30,7 @@ var config = {
   ],
 
   bower: {
-    includeDev: false
+    includeDev: true
   },
 
   header: _.template([

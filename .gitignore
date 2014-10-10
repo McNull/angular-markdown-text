@@ -4,6 +4,6 @@ bower_components/*
 dest/*
 
 .idea/**/*
-!.idea/runConfigurations
-!.idea/runConfigurations/**/*
-!.idea/webResources.xml
+#!.idea/runConfigurations
+#!.idea/runConfigurations/**/*
+#!.idea/webResources.xml

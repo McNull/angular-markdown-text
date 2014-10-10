@@ -5,7 +5,52 @@
     <div ng-logo></div>
 
     <h1>Hello Website</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores autem consectetur corporis delectus eligendi est et fugit, ipsam laboriosam libero magnam nemo quam quia quod repellendus saepe sunt, velit!</p>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores autem consectetur corporis delectus
+      eligendi est et fugit, ipsam laboriosam libero magnam nemo quam quia quod repellendus saepe sunt, velit!</p>
   </div>
 
+
+  <form class="form">
+
+    <div class="form-group">
+      <label>Input</label>
+      <textarea ng-model="input.source" class="form-control"></textarea>
+    </div>
+
+  </form>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h1>Output</h1>
+    </div>
+    <div class="panel-body" markdown="input.source">
+
+    </div>
+  </div>
+
+  <div markdown>
+    # Lorem del ipsum
+
+    * Ein
+    * Zwein
+    * Drein
+  </div>
+
+  <div markdown>
+
+    # Gedoe
+    Veel <a href="">onveilige</a> <i>html</i> hier
+
+  </div>
+
+  <div markdown>
+    # Code
+    ```
+    function() {
+    // having fun
+    }
+
+    ```
+  </div>
 </div>

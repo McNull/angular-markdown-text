@@ -4,3 +4,10 @@
 
 var markdown = angular.module('markdown', []);
 
+markdown.value('markdownConfig', {
+  outline: true,
+  sanitize: true,
+  options: {
+    // Showdown options
+  }
+});

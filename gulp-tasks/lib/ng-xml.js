@@ -49,16 +49,18 @@ module.exports = function (options) {
 
   function flush(callback) {
 
-    var contents = 'angular.module(\'' + options.moduleName + '\').run([\'$templateCache\', function($templateCache){\n' +
-      buffer.join('\n') + '\n}]);';
+    if(buffer.length) {
+      var contents = 'angular.module(\'' + options.moduleName + '\').run([\'$templateCache\', function($templateCache){\n' +
+        buffer.join('\n') + '\n}]);';
 
 
-    var file = new File({
-      path: options.filename || options.moduleName + '-templates.js',
-      contents: new Buffer(contents)
-    });
+      var file = new File({
+        path: options.filename || options.moduleName + '-templates.js',
+        contents: new Buffer(contents)
+      });
 
-    this.push(file);
+      this.push(file);
+    }
 
     return callback();
   }

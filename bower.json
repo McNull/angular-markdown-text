@@ -1,5 +1,11 @@
 {
-  "name": "angular-project-template",
+  "name": "angular-markdown-text",
+  "description": "An easy to use markdown directive with outlining and html sanitizing.",
+  "homepage": "https://github.com/McNull/angular-markdown-text",
+  "repository": "git@github.com:McNull/angular-markdown-text.git",
+  "keywords": [
+    "angular", "angularjs", "markdown", "directive"
+  ],
   "version": "0.0.1",
   "authors": [
     "Null McNull <no@spam.org>"

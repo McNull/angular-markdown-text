@@ -1,0 +1,34 @@
+<div ng-include="'app/header.ng.html'"></div>
+
+<div class="container">
+
+  <div markdown>
+    ## Markdown by static content
+    Any static content within a `markdown` directive will be converted into html.
+
+    ```
+    <markdown>
+      ## Markdown by static content
+      Any content within a `markdown` directive will be converted into html.
+    </markdown>
+    ```
+  </div>
+
+  <div markdown markdown-src="'app/include-resource.md'"></div>
+
+  <div markdown>
+    ## Markdown by model expression
+    Supply the `markdown` a model to convert to html.
+
+    ```
+    <textarea ng-model="myModel.input"></textarea>
+    <div markdown="myModel.input"></div>
+    ```
+  </div>
+
+  <div ng-controller="MarkdownModelCtrl" play-state="$scope.input.state">
+    <div markdown-preview markdown-model="input.markdown" on-focus="stop()" on-blur="play()"></div>
+  </div>
+
+</div>
+

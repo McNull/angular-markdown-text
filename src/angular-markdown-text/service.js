@@ -1,15 +1,9 @@
-
-markdown.factory('markdown', function(markdownConfig, $injector) {
+markdown.factory('markdown', function (markdownConfig, $injector) {
 
   var _converter, $sanitize;
 
-  if(markdownConfig.sanitize) {
-    if($injector.has('$sanitize')) {
-      $sanitize = $injector.get('$sanitize');
-    } else {
-      throw new Error('Failed to locate $sanitize service.\n' +
-        'Either allow unsafe-html by setting markdownConfig.sanitize to false or include angular-sanitize.');
-    }
+  if ($injector.has('$sanitize')) {
+    $sanitize = $injector.get('$sanitize');
   }
 
   function _getConverter() {
@@ -17,14 +11,43 @@ markdown.factory('markdown', function(markdownConfig, $injector) {
     return _converter;
   }
 
-  function makeHtml(text) {
+  function makeHtml(text, options) {
+
+    options = options || markdownConfig;
+
+    if(options.outline) {
+      text = outline(text);
+    }
+
+    if(options.escapeHtml) {
+      text = escapeHtml(text);
+    }
+
     var html = _getConverter().makeHtml(text);
 
-    if(markdownConfig.sanitize) {
-      html = $sanitize(html);
+    if (options.sanitize) {
+
+      if (!$sanitize) {
+        throw new Error('Missing dependency angular-sanitize.');
+      }
+
+      try {
+        html = $sanitize(html);
+      } catch(ex) {
+        console.log(ex);
+        html = '';
+      }
+
     }
 
     return html;
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
   }
 
   function outline(text) {
@@ -54,7 +77,8 @@ markdown.factory('markdown', function(markdownConfig, $injector) {
   return {
     _converter: _getConverter,
     makeHtml: makeHtml,
-    outline: outline
+    outline: outline,
+    escapeHtml: escapeHtml
   };
 
 });

@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form class="form markdown-preview">
+
+      <div class="form-group col-sm-6">
+        <label>Input</label>
+        <textarea class="form-control" ng-model="markdownModel" ng-focus="onFocus()" ng-blur="onBlur()"></textarea>
+      </div>
+
+      <div class="form-group col-sm-6">
+        <label>Output</label>
+
+        <div class="form-control" markdown="markdownModel"></div>
+      </div>
+
+    </form>
+  </div>
+</div>

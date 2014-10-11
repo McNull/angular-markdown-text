@@ -30,6 +30,10 @@ var config = {
       alias: 'ngLogo'
     },
     {
+      name: 'github-logo',
+      alias: 'githubLogo'
+    },
+    {
       name: 'app'
     }
   ],

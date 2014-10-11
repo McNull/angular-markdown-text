@@ -5,9 +5,14 @@
 var markdown = angular.module('markdown', []);
 
 markdown.value('markdownConfig', {
+  // Outline static markup
   outline: true,
+  // Escape html
+  escapeHtml: false,
+  // Sanitize html,
   sanitize: true,
-  options: {
-    // Showdown options
+  // Showdown options
+  showdown: {
+
   }
 });

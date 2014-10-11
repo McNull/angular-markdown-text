@@ -45,14 +45,82 @@ describe('markdown-service', function() {
 
     it('should return html text', function() {
 
+      var options = {
+        escapeHtml: false,
+        sanitize: false
+      };
+
       var input =
         "# lorem ipsum\n" +
         "lorem ipsum";
-      var expected = $sanitize((new Showdown.converter()).makeHtml(input));
-      var result = markdown.makeHtml(input);
+
+      var expected = (new Showdown.converter()).makeHtml(input);
+      var result = markdown.makeHtml(input, options);
 
       expect(result).toEqual(expected);
     });
+
+    it('should return html text with escaped html', function() {
+
+      var options = {
+        escapeHtml: true,
+        sanitize: false
+      };
+
+      var html = "<script>alert('pwnd');</script>";
+      var escapedHtml = markdown.escapeHtml(html);
+
+      var input =
+        "# lorem ipsum\n" +
+        "lorem ipsum\n\n";
+
+      var expected = (new Showdown.converter()).makeHtml(input) + '\n\n<p>' + escapedHtml + '</p>';
+      var result = markdown.makeHtml(input + html, options);
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should return sanitized html text', function() {
+
+      var options = {
+        escapeHtml: false,
+        sanitize: true
+      };
+
+      var html = "<script>alert('pwnd');</script>";
+
+      var input =
+        "# lorem ipsum\n" +
+        "lorem ipsum";
+
+      var expected = $sanitize((new Showdown.converter()).makeHtml(input + html));
+
+      var result = markdown.makeHtml(input, options);
+
+      expect(result).toEqual(expected);
+    });
+
+
+    it('should return outlined html text', function() {
+
+      var options = {
+        escapeHtml: false,
+        sanitize: false,
+        outline: true
+      };
+
+      var input =
+        "  # lorem ipsum\n" +
+        "    lorem ipsum";
+
+      var outlined = markdown.outline(input);
+      var expected = (new Showdown.converter()).makeHtml(outlined);
+
+      var result = markdown.makeHtml(input, options);
+
+      expect(result).toEqual(expected);
+    });
+
   });
 
 

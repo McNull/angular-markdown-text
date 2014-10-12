@@ -1,6 +1,6 @@
 {
   "name": "angular-markdown-text",
-  "version": "0.0.1",
+  "version": "0.0.22",
   "description": "An easy to use markdown directive with static outlining, html escaping/sanitization, resource loading and model binding.",
   "homepage": "https://github.com/McNull/angular-markdown-text",
   "main": "gulp",

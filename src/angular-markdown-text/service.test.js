@@ -1,7 +1,3 @@
-/**
- * Created by null on 10/10/14.
- */
-
 describe('markdown-service', function() {
 
   var markdown, $sanitize;

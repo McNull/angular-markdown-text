@@ -1,8 +1,8 @@
 {
-  "name": "angular-project-template",
+  "name": "angular-markdown-text",
   "version": "0.0.1",
-  "description": "Boilerplate template for domain driven angularjs applications.",
-  "homepage": "https://github.com/McNull/angular-project-template",
+  "description": "An easy to use markdown directive with static outlining, html escaping/sanitization, resource loading and model binding.",
+  "homepage": "https://github.com/McNull/angular-markdown-text",
   "main": "gulp",
   "scripts": {
     "test": "gulp test"

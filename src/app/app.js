@@ -1,5 +1,9 @@
 var app = angular.module('app', ['ngLogo', 'githubLogo', 'markdown', 'ngSanitize', 'ngRoute']);
 
+app.config(['$locationProvider', function($location) {
+  $location.hashPrefix('!');
+}]);
+
 app.config(function ($routeProvider) {
 
   $routeProvider.when('/', {
@@ -20,7 +24,13 @@ app.config(function (markdownConfig) {
 
 });
 
-app.controller('MarkdownModelCtrl', function ($scope, $http, typeEmulator, $timeout, $element) {
+app.factory('isPrerender', function($window) {
+
+  return $window.navigator.userAgent.indexOf('Prerender')!=-1;
+
+});
+
+app.controller('MarkdownModelCtrl', function ($scope, $http, typeEmulator, $timeout, $element, isPrerender) {
   $scope.input = {
     markdown: '# Hello',
     tPromise: null,
@@ -36,25 +46,36 @@ app.controller('MarkdownModelCtrl', function ($scope, $http, typeEmulator, $time
     });
   }
 
-  $http.get('app/example.md').success(function (response) {
-    $scope.input.exampleMarkdown = response;
-    $scope.play();
+  $http.get('app/README.md').success(function (response) {
+
+    if(isPrerender) {
+      $scope.input.markdown = response;
+    } else {
+      $scope.input.exampleMarkdown = response;
+      $scope.play();
+    }
+
   });
 
   $scope.play = function () {
-    $scope.input.state = 'playing';
-    startTyping();
+    if(!isPrerender) {
+      $scope.input.state = 'playing';
+      startTyping();
+    }
   };
 
   $scope.stop = function () {
-    $scope.input.state = 'stopped';
-    typeEmulator.stop();
 
-    if ($scope.tPromise) {
-      $timeout.cancel($scope.tPromise);
+    if(!isPrerender) {
+      $scope.input.state = 'stopped';
+      typeEmulator.stop();
+
+      if ($scope.tPromise) {
+        $timeout.cancel($scope.tPromise);
+      }
+
+      $scope.input.markdown = $scope.input.exampleMarkdown;
     }
-
-    $scope.input.markdown = $scope.input.exampleMarkdown;
   };
 });
 

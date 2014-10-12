@@ -22,7 +22,7 @@ $ bower install angular-markdown-text
 $ bower install angular-sanitize
 ```
 
-Installation of `angular-sanitize` is optional; the module will detect if it's available.
+Installation of `angular-sanitize` is recommended but optional; the module will detect if it's available.
 
 ## Usage
 

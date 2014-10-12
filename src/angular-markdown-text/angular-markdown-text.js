@@ -4,7 +4,7 @@
 
 var markdown = angular.module('markdown', []);
 
-markdown.value('markdownConfig', {
+markdown.constant('markdownConfig', {
   // Outline static markup
   outline: true,
   // Escape html
@@ -13,6 +13,6 @@ markdown.value('markdownConfig', {
   sanitize: true,
   // Showdown options
   showdown: {
-
+    extensions: []
   }
 });

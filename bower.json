@@ -1,10 +1,13 @@
 {
   "name": "angular-markdown-text",
-  "description": "An easy to use markdown directive with outlining and html sanitizing.",
+  "description": "An easy to use markdown directive with static outlining, html escaping/sanitization, resource loading and model binding.",
   "homepage": "https://github.com/McNull/angular-markdown-text",
   "repository": "git@github.com:McNull/angular-markdown-text.git",
   "keywords": [
-    "angular", "angularjs", "markdown", "directive"
+    "angular",
+    "angularjs",
+    "markdown",
+    "directive"
   ],
   "version": "0.0.1",
   "authors": [
@@ -37,7 +40,8 @@
     "jquery": "1.*",
     "respond": "~1.4.2",
     "html5shiv": "~3.7.2",
-    "angular-sanitize": "~1.2.26"
+    "angular-sanitize": "~1.2.26",
+    "marked": "~0.3.2"
   },
   "overrides": {
     "respond": {
@@ -53,6 +57,9 @@
         "compressed/extensions/google-prettify.js",
         "compressed/extensions/twitter.js"
       ]
+    },
+    "marked": {
+      "main": "lib/marked.js"
     }
   }
 }

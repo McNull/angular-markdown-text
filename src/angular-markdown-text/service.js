@@ -7,7 +7,7 @@ markdown.factory('markdown', function (markdownConfig, $injector) {
   }
 
   function _getConverter() {
-    _converter = _converter || new Showdown.converter(markdownConfig.options);
+    _converter = _converter || new Showdown.converter(markdownConfig.showdown);
     return _converter;
   }
 
@@ -35,7 +35,7 @@ markdown.factory('markdown', function (markdownConfig, $injector) {
         html = $sanitize(html);
       } catch(ex) {
         console.log(ex);
-        html = '';
+        html = undefined;
       }
 
     }

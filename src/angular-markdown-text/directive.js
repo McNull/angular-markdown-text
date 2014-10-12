@@ -7,15 +7,15 @@ markdown.directive('markdown', function (markdown, markdownConfig, $http, $templ
   return {
     restrict: 'AE',
     terminal: true,
-    compile: function(tElement, tAttrs) {
+    compile: function (tElement, tAttrs) {
 
       var options = angular.copy(markdownConfig);
 
       options.escapeHtml = parseBoolAttr(tAttrs, 'markdownEscapeHtml', options.escapeHtml);
       options.outline = parseBoolAttr(tAttrs, 'markdownOutline', options.outline);
-      options.sanitize = parseBoolAttr(tAttrs, 'markdownOutline', options.outline);
+      options.sanitize = parseBoolAttr(tAttrs, 'markdownSanitize', options.sanitize);
 
-      var modelExpr = tAttrs.markdown;
+      var modelExpr = tAttrs.markdown || tAttrs.markdownModel;
       var srcExpr = tAttrs.markdownSrc;
 
       return {
@@ -26,30 +26,32 @@ markdown.directive('markdown', function (markdown, markdownConfig, $http, $templ
 
           // Only link if we're not in markdown scope.
           if (!$element.parent().inheritedData('markdown')) {
-            if(srcExpr) {
+            if (srcExpr) {
 
               var counter = 0;
 
-              $scope.$watch(srcExpr, function(value) {
+              $scope.$watch(srcExpr, function (value) {
 
                 // Keep track of outstanding requests
 
                 var id = ++counter;
 
-                if(value) {
-                  $http.get(value, { cache: $templateCache }).success(function(response) {
+                if (value) {
+                  $http.get(value, { cache: $templateCache }).success(function (response) {
 
                     // Only update if this is the latest response.
 
-                    if(id == counter) {
+                    if (id == counter) {
                       var result = response ? markdown.makeHtml(response, options) : '';
-                      $element.html(result);
+                      if (result != undefined) {
+                        $element.html(result);
+                      }
                     }
-                  }).error(function() {
+                  }).error(function () {
 
                     // Only update if this is the latest response.
 
-                    if(id == counter) {
+                    if (id == counter) {
                       $element.html('');
                     }
                   });
@@ -62,15 +64,22 @@ markdown.directive('markdown', function (markdown, markdownConfig, $http, $templ
 
               });
 
-            } else if(modelExpr) {
+            } else if (modelExpr) {
               // Watch and convert the expression output
-              $scope.$watch(modelExpr, function(value) {
+              $scope.$watch(modelExpr, function (value) {
                 var result = value ? markdown.makeHtml(value, options) : '';
-                $element.html(result);
+                if (result != undefined) {
+                  $element.html(result);
+                }
               });
             } else {
               // Convert the static innerHtml
-              $element.html(markdown.makeHtml($element.html()), options);
+              var result = markdown.makeHtml($element.html(), options);
+
+              if (result != undefined) {
+                $element.html(result);
+              }
+
             }
           }
         }

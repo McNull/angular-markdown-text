@@ -12,40 +12,97 @@ app.config(function ($routeProvider) {
 
 });
 
-app.controller('MarkdownModelCtrl', function ($scope, $http, typeEmulator, $timeout) {
+app.config(function (markdownConfig) {
+
+  markdownConfig.showdown.extensions = [
+    'github'
+  ];
+
+});
+
+app.controller('MarkdownModelCtrl', function ($scope, $http, typeEmulator, $timeout, $element) {
   $scope.input = {
     markdown: '# Hello',
-    state: 'stopped',
     tPromise: null,
-    exampleMarkdown: ''
+    exampleMarkdown: '',
+    state: 'stopped'
   };
 
   function startTyping() {
     typeEmulator.start($scope.input, 'markdown', $scope.input.exampleMarkdown).then(function () {
-      $timeout(function() {
+      $timeout(function () {
         startTyping();
       }, 5000);
     });
   }
 
-  $http.get('app/example.md').success(function(response) {
+  $http.get('app/example.md').success(function (response) {
     $scope.input.exampleMarkdown = response;
     $scope.play();
   });
 
-  $scope.play = function() {
-    $scope.state = 'playing';
+  $scope.play = function () {
+    $scope.input.state = 'playing';
     startTyping();
   };
 
-  $scope.stop = function() {
-    $scope.state = 'stopped';
+  $scope.stop = function () {
+    $scope.input.state = 'stopped';
     typeEmulator.stop();
 
-    if($scope.tPromise) {
+    if ($scope.tPromise) {
       $timeout.cancel($scope.tPromise);
     }
+
+    $scope.input.markdown = $scope.input.exampleMarkdown;
   };
+});
+
+app.directive('scrollToBottom', function () {
+
+  function locateElementsByClass($element, className) {
+
+    var result = [];
+
+    function collect($e) {
+
+      if ($e.hasClass(className)) {
+        result.push($e);
+      }
+
+      angular.forEach($e.children(), function (child) {
+        collect(angular.element(child));
+      });
+    }
+
+    collect($element);
+
+    return result;
+  }
+
+  return {
+    link: function ($scope, $element) {
+
+      var formControls = [];
+
+      $scope.$watch('input.markdown', function (value, oldValue) {
+
+        if (value != oldValue && $scope.input.state == 'playing') {
+
+          formControls = !formControls.length ? locateElementsByClass($element, 'form-control') : formControls;
+
+          angular.forEach(formControls, function ($e) {
+
+            $e[0].scrollTop = $e[0].scrollHeight;
+
+          });
+        }
+
+      });
+
+    }
+  };
+
 });
 
 app.factory('typeEmulator', function ($timeout, $q) {
